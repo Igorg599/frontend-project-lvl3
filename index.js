@@ -1,1 +1,1 @@
-console.log(1);
+import "bootstrap/dist/css/bootstrap.min.css"
