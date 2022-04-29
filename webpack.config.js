@@ -1,8 +1,7 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -19,9 +18,9 @@ const config = {
     new HtmlWebpackPlugin({
       template: "index.html",
     }),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ["./dist/*.*"],
+    }),
   ],
   module: {
     rules: [
@@ -33,8 +32,37 @@ const config = {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
+      {
+        test: /\.(scss)$/,
+        use: [
+          {
+            // inject CSS to page
+            loader: "style-loader",
+          },
+          {
+            // translates CSS into CommonJS modules
+            loader: "css-loader",
+          },
+          {
+            // Run postcss actions
+            loader: "postcss-loader",
+            options: {
+              // `postcssOptions` is needed for postcss 8.x;
+              // if you use postcss 7.x skip the key
+              postcssOptions: {
+                // postcss plugins, can be exported to postcss.config.js
+                plugins: function () {
+                  return [require("autoprefixer")]
+                },
+              },
+            },
+          },
+          {
+            // compiles Sass to CSS
+            loader: "sass-loader",
+          },
+        ],
+      },
     ],
   },
 }
