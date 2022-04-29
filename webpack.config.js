@@ -8,7 +8,7 @@ const isProduction = process.env.NODE_ENV === "production"
 const config = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "public"),
   },
   devServer: {
     open: true,
@@ -19,7 +19,7 @@ const config = {
       template: "index.html",
     }),
     new CleanWebpackPlugin({
-      cleanAfterEveryBuildPatterns: ["./dist/*.*"],
+      cleanAfterEveryBuildPatterns: ["./public/*.*"],
     }),
   ],
   module: {
