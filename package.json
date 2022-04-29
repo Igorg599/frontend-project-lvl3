@@ -12,6 +12,7 @@
     "serve": "webpack serve",
     "webpack": "webpack"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Igorg599/frontend-project-lvl3.git"
@@ -23,11 +24,13 @@
   },
   "homepage": "https://github.com/Igorg599/frontend-project-lvl3#readme",
   "devDependencies": {
+    "@typescript-eslint/parser": "^5.21.0",
     "@webpack-cli/generators": "^2.4.2",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.8.0",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jest": "^25.7.0",
     "html-webpack-plugin": "^5.5.0",
@@ -42,6 +45,8 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",
+    "@types/autoprefixer": "^10.2.0",
+    "autoprefixer": "^10.4.5",
     "bootstrap": "^5.1.3"
   }
 }
