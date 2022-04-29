@@ -1,28 +1,27 @@
-
 const arr = [
-  "вертикаль",
-  "кильватер",
-  "апельсин",
-  "спаниель",
-  "австралопитек",
-  "ватерполистка",
-  "кластер",
-  "сталкер",
-  "стрелка",
-  "корабль",
-]
+  'вертикаль',
+  'кильватер',
+  'апельсин',
+  'спаниель',
+  'австралопитек',
+  'ватерполистка',
+  'кластер',
+  'сталкер',
+  'стрелка',
+  'корабль',
+];
 
 const groupArr = (arr) => {
-  const obj = {}
+  const obj = {};
   arr.forEach((item) => {
-    const sorItem = item.split("").sort().join("")
+    const sorItem = item.split('').sort().join('');
     if (!obj[sorItem]) {
-      obj[sorItem] = [item]
-      return
+      obj[sorItem] = [item];
+      return;
     }
-    obj[sorItem] = [...obj[sorItem], item]
-  })
-  console.log(obj)
-}
+    obj[sorItem] = [...obj[sorItem], item];
+  });
+  console.log(obj);
+};
 
-groupArr(arr)
+groupArr(arr);
