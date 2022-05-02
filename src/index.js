@@ -21,6 +21,7 @@ const app = async () => {
   });
 
   const form = document.querySelector('form');
+  const textDanger = document.querySelector('.text-danger');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -31,15 +32,18 @@ const app = async () => {
       })
       .then((res) => {
         if (watchedObject.streams.includes(res.website)) {
-          watchedObject.error = i18nInstance.t('errors.double');
+          textDanger.textContent = i18nInstance.t('errors.double');
+          watchedObject.error = true;
           return;
         }
-        watchedObject.error = null;
+        watchedObject.error = false;
+        textDanger.textContent = '';
         watchedObject.streams = [...watchedObject.streams, res.website];
         form.reset();
       })
       .catch(() => {
-        watchedObject.error = i18nInstance.t('errors.valid');
+        watchedObject.error = true;
+        textDanger.textContent = i18nInstance.t('errors.valid');
       });
   });
 };
