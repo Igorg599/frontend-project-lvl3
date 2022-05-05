@@ -22,6 +22,7 @@ const watch = (elements, initialState) => {
 
   const changeFeeds = (state) => {
     const { feeds } = state;
+    feedsWrapper.textContent = '';
     if (feeds.length) {
       const container = document.createElement('div');
       container.classList.add('card', 'border-0');
@@ -54,6 +55,7 @@ const watch = (elements, initialState) => {
 
   const changePosts = (state) => {
     const { posts } = state;
+    postsWrapper.textContent = '';
     if (posts.length) {
       const container = document.createElement('div');
       container.classList.add('card', 'border-0');

@@ -76,32 +76,43 @@ const app = async () => {
     },
   };
 
+  const validateURL = (url, state) => {
+    const links = state.feeds.map((feed) => feed.url);
+    if (links.includes(url)) {
+      return Promise.reject(i18nInstance.t('errors.double'));
+    }
+    return userSchema
+      .validate({
+        website: url,
+      })
+      .then(() => null)
+      .catch(() => i18nInstance.t('errors.valid'));
+  };
+
   const watchState = watch(elements, initialState);
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    userSchema
-      .validate({
-        website: formData.get('url'),
+    const url = formData.get('url');
+    validateURL(url, watchState)
+      .then((err) => {
+        if (err) {
+          watchState.form = {
+            error: err,
+            valid: false,
+          };
+        } else {
+          watchState.form = {
+            error: null,
+            valid: true,
+          };
+          processSSr(url, watchState, i18nInstance);
+        }
       })
-      .then((res) => {
-        // if (watchedObject.streams.includes(res.website)) {
-        //   elements.feedback.textContent = i18nInstance.t("errors.double")
-        //   watchedObject.error = true
-        //   return
-        // }
-        // watchedObject.error = false
-        // elements.feedback.textContent = ""
+      .catch((err) => {
         watchState.form = {
-          error: null,
-          valid: true,
-        };
-        processSSr(res.website, watchState, i18nInstance);
-      })
-      .catch(() => {
-        watchState.form = {
-          error: i18nInstance.t('errors.valid'),
+          error: err,
           valid: false,
         };
       });
