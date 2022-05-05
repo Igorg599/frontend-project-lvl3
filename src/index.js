@@ -61,8 +61,8 @@ const app = async () => {
     form: document.querySelector('form'),
     input: document.querySelector('.form-control'),
     feedback: document.querySelector('.feedback'),
-    feeds: document.querySelector('.feeds'),
-    posts: document.querySelector('.posts'),
+    feedsWrapper: document.querySelector('.feeds'),
+    postsWrapper: document.querySelector('.posts'),
     modal: document.querySelector('#modal'),
     submit: document.querySelector('.rss-form button[type="submit"]'),
   };
