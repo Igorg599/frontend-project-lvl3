@@ -1,34 +1,33 @@
-/* eslint-env browser */
-import onChange from "on-change"
+import onChange from 'on-change';
 
 const watch = (elements, initialState) => {
-  const { input, feedback, form } = elements
+  const { input, feedback, form } = elements;
   const changeForm = (state) => {
     const {
       form: { error, valid },
-    } = state
+    } = state;
 
     if (valid) {
-      input.classList.remove("is-invalid")
-      feedback.textContent = ""
-      form.reset()
+      input.classList.remove('is-invalid');
+      feedback.textContent = '';
+      form.reset();
     } else {
-      input.classList.add("is-invalid")
-      feedback.textContent = error
+      input.classList.add('is-invalid');
+      feedback.textContent = error;
     }
-  }
+  };
 
   const watchedObject = onChange(initialState, (path) => {
     switch (path) {
-      case "form":
-        changeForm(initialState)
-        break
+      case 'form':
+        changeForm(initialState);
+        break;
       default:
-        break
+        break;
     }
-  })
+  });
 
-  return watchedObject
-}
+  return watchedObject;
+};
 
-export default watch
+export default watch;
