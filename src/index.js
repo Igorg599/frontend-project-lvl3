@@ -8,9 +8,40 @@ import watch from './watcher.js';
 import resources from './locales/index.js';
 import parser from './parser.js';
 
+const fetchInterval = 5000;
+
+const proxyLink = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
+
+const getNewPosts = (state) => {
+  const promisesFeeds = state.feeds.map((feed) => axios
+    .get(proxyLink + feed.url)
+    .then((response) => {
+      const data = parser(response.data.contents);
+
+      const newPosts = data.items.map((item) => ({
+        ...item,
+        feedId: feed.id,
+      }));
+      const oldPosts = state.posts.filter((post) => post.feedId === feed.id);
+
+      const resultPosts = _.differenceWith(
+        newPosts,
+        oldPosts,
+        (paramOne, paramTwo) => paramOne.title === paramTwo.title,
+      ).map((post) => ({ ...post, id: _.uniqueId() }));
+
+      state.posts.unshift(...resultPosts);
+    })
+    .catch((err) => console.log(err)));
+
+  Promise.all(promisesFeeds).finally(() => {
+    setTimeout(() => getNewPosts(state), fetchInterval);
+  });
+};
+
 const processSSr = (url, state, i18nInstance) => {
   axios
-    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`)
+    .get(proxyLink + url)
     .then((response) => {
       if (response.status === 200) return response.data;
       state.form = {
@@ -117,6 +148,8 @@ const app = async () => {
         };
       });
   });
+
+  setTimeout(() => getNewPosts(watchState), fetchInterval);
 };
 
 app();
