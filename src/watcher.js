@@ -1,6 +1,6 @@
 import onChange from 'on-change';
 
-const watch = (elements, initialState) => {
+const watch = (elements, initialState, i18nInstance) => {
   const {
     input, feedback, form, feedsWrapper, postsWrapper,
   } = elements;
@@ -12,10 +12,14 @@ const watch = (elements, initialState) => {
 
     if (valid) {
       input.classList.remove('is-invalid');
-      feedback.textContent = '';
+      feedback.classList.add('text-success');
+      feedback.classList.remove('text-danger');
+      feedback.textContent = i18nInstance.t('load.success');
       form.reset();
     } else {
       input.classList.add('is-invalid');
+      feedback.classList.remove('text-success');
+      feedback.classList.add('text-danger');
       feedback.textContent = error;
     }
   };

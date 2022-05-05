@@ -103,7 +103,7 @@ const app = async () => {
     posts: [],
     form: {
       error: null,
-      valid: false,
+      statusLoad: '',
     },
   };
 
@@ -120,7 +120,7 @@ const app = async () => {
       .catch(() => i18nInstance.t('errors.valid'));
   };
 
-  const watchState = watch(elements, initialState);
+  const watchState = watch(elements, initialState, i18nInstance);
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -138,6 +138,7 @@ const app = async () => {
             error: null,
             valid: true,
           };
+          watchState.successLoad = i18nInstance.t('load.success');
           processSSr(url, watchState, i18nInstance);
         }
       })
