@@ -58,7 +58,7 @@ const watch = (elements, initialState, i18nInstance) => {
   };
 
   const changePosts = (state) => {
-    const { posts } = state;
+    const { posts, viewPosts } = state;
     postsWrapper.textContent = '';
     if (posts.length) {
       const container = document.createElement('div');
@@ -85,7 +85,11 @@ const watch = (elements, initialState, i18nInstance) => {
           'border-end-0',
         );
         const link = document.createElement('a');
-        link.classList.add('fw-bold');
+        if (viewPosts.includes(post.id)) {
+          link.classList.add('fw-normal', 'link-secondary');
+        } else {
+          link.classList.add('fw-bold');
+        }
         link.setAttribute('href', post.link);
         link.setAttribute('data-id', post.id);
         link.setAttribute('target', '_blank');
@@ -132,6 +136,9 @@ const watch = (elements, initialState, i18nInstance) => {
         break;
       case 'modalPost':
         changeModal(initialState);
+        break;
+      case 'viewPosts':
+        changePosts(initialState);
         break;
       default:
         break;

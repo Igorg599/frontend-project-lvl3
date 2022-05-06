@@ -106,6 +106,7 @@ const app = async () => {
       statusLoad: '',
     },
     modalPost: null,
+    viewPosts: [],
   };
 
   const validateURL = (url, state) => {
@@ -157,6 +158,9 @@ const app = async () => {
     }
 
     watchState.modalPost = e.target.dataset.id;
+    if (!watchState.viewPosts.includes(e.target.dataset.id)) {
+      watchState.viewPosts.push(e.target.dataset.id);
+    }
   });
 
   setTimeout(() => getNewPosts(watchState), fetchInterval);
