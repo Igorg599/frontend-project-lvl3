@@ -89,7 +89,7 @@ const app = async () => {
   });
 
   const elements = {
-    form: document.querySelector('form'),
+    form: document.querySelector('.rss-form'),
     input: document.querySelector('.form-control'),
     feedback: document.querySelector('.feedback'),
     feedsWrapper: document.querySelector('.feeds'),
