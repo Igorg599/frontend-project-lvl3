@@ -123,14 +123,23 @@ const watch = (elements, initialState, i18nInstance) => {
   };
 
   const loadProcess = (state) => {
-    if (state.load) {
-      submit.disabled = true;
-      input.setAttribute('readonly', true);
-    } else {
-      submit.disabled = false;
-      input.removeAttribute('readonly');
-      input.value = '';
-      input.focus();
+    switch (state.load) {
+      case 'ok':
+        submit.disabled = false;
+        input.removeAttribute('readonly');
+        input.value = '';
+        input.focus();
+        break;
+      case 'loading':
+        submit.disabled = true;
+        input.setAttribute('readonly', true);
+        break;
+      case 'failure':
+        submit.disabled = false;
+        input.removeAttribute('readonly');
+        break;
+      default:
+        break;
     }
   };
 

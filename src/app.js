@@ -48,6 +48,7 @@ const getNewPosts = (state) => {
 };
 
 const processSSr = (url, state, i18nInstance) => {
+  state.load = 'loading';
   axios
     .get(proxyLink + url)
     .then((response) => parser(response.data.contents))
@@ -65,13 +66,14 @@ const processSSr = (url, state, i18nInstance) => {
       }));
       state.feeds.unshift(feed);
       state.posts.unshift(...posts);
-      state.load = false;
+      state.load = 'ok';
       state.form = {
         error: null,
         valid: true,
       };
     })
     .catch((e) => {
+      state.load = 'failure';
       state.form = {
         error: typeError(e, i18nInstance),
         valid: false,
@@ -112,7 +114,7 @@ const app = async () => {
     },
     modalPost: null,
     viewPosts: [],
-    load: false,
+    load: 'ok',
   };
 
   const validateURL = (url, state) => {
@@ -131,7 +133,6 @@ const app = async () => {
   const watchState = watch(elements, initialState, i18nInstance);
 
   elements.form.addEventListener('submit', (e) => {
-    watchState.load = true;
     e.preventDefault();
     const formData = new FormData(e.target);
     const url = formData.get('url');
