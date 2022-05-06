@@ -65,6 +65,11 @@ const processSSr = (url, state, i18nInstance) => {
       }));
       state.feeds.unshift(feed);
       state.posts.unshift(...posts);
+      state.load = false;
+      state.form = {
+        error: null,
+        valid: true,
+      };
     })
     .catch((e) => {
       state.form = {
@@ -107,6 +112,7 @@ const app = async () => {
     },
     modalPost: null,
     viewPosts: [],
+    load: false,
   };
 
   const validateURL = (url, state) => {
@@ -125,6 +131,7 @@ const app = async () => {
   const watchState = watch(elements, initialState, i18nInstance);
 
   elements.form.addEventListener('submit', (e) => {
+    watchState.load = true;
     e.preventDefault();
     const formData = new FormData(e.target);
     const url = formData.get('url');
@@ -136,10 +143,6 @@ const app = async () => {
             valid: false,
           };
         } else {
-          watchState.form = {
-            error: null,
-            valid: true,
-          };
           watchState.successLoad = i18nInstance.t('load.success');
           processSSr(url, watchState, i18nInstance);
         }

@@ -2,7 +2,7 @@ import onChange from 'on-change';
 
 const watch = (elements, initialState, i18nInstance) => {
   const {
-    input, feedback, form, feedsWrapper, postsWrapper, modal,
+    input, feedback, feedsWrapper, postsWrapper, modal, submit,
   } = elements;
 
   const changeForm = (state) => {
@@ -15,7 +15,6 @@ const watch = (elements, initialState, i18nInstance) => {
       feedback.classList.add('text-success');
       feedback.classList.remove('text-danger');
       feedback.textContent = i18nInstance.t('load.success');
-      form.reset();
     } else {
       input.classList.add('is-invalid');
       feedback.classList.remove('text-success');
@@ -123,6 +122,18 @@ const watch = (elements, initialState, i18nInstance) => {
     }
   };
 
+  const loadProcess = (state) => {
+    if (state.load) {
+      submit.disabled = true;
+      input.setAttribute('readonly', true);
+    } else {
+      submit.disabled = false;
+      input.removeAttribute('readonly');
+      input.value = '';
+      input.focus();
+    }
+  };
+
   const watchedObject = onChange(initialState, (path) => {
     switch (path) {
       case 'form':
@@ -139,6 +150,9 @@ const watch = (elements, initialState, i18nInstance) => {
         break;
       case 'viewPosts':
         changePosts(initialState);
+        break;
+      case 'load':
+        loadProcess(initialState);
         break;
       default:
         break;
