@@ -2,7 +2,7 @@ import onChange from 'on-change';
 
 const watch = (elements, initialState, i18nInstance) => {
   const {
-    input, feedback, form, feedsWrapper, postsWrapper,
+    input, feedback, form, feedsWrapper, postsWrapper, modal,
   } = elements;
 
   const changeForm = (state) => {
@@ -105,6 +105,20 @@ const watch = (elements, initialState, i18nInstance) => {
     }
   };
 
+  const changeModal = (state) => {
+    const { modalPost } = state;
+
+    if (modalPost) {
+      const post = state.posts.find(({ id }) => id === modalPost);
+      const title = modal.querySelector('.modal-title');
+      title.textContent = post.title;
+      const descr = modal.querySelector('.modal-body');
+      descr.textContent = post.descr;
+      const linkBtn = modal.querySelector('.full-article');
+      linkBtn.href = post.link;
+    }
+  };
+
   const watchedObject = onChange(initialState, (path) => {
     switch (path) {
       case 'form':
@@ -115,6 +129,9 @@ const watch = (elements, initialState, i18nInstance) => {
         break;
       case 'posts':
         changePosts(initialState);
+        break;
+      case 'modalPost':
+        changeModal(initialState);
         break;
       default:
         break;

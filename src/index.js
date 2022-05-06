@@ -105,6 +105,7 @@ const app = async () => {
       error: null,
       statusLoad: '',
     },
+    modalPost: null,
   };
 
   const validateURL = (url, state) => {
@@ -148,6 +149,14 @@ const app = async () => {
           valid: false,
         };
       });
+  });
+
+  elements.postsWrapper.addEventListener('click', (e) => {
+    if (!e.target.dataset.id) {
+      return;
+    }
+
+    watchState.modalPost = e.target.dataset.id;
   });
 
   setTimeout(() => getNewPosts(watchState), fetchInterval);
