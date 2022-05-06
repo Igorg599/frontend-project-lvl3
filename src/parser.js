@@ -4,7 +4,8 @@ const parser = (data) => {
 
   const parseError = dom.querySelector('parsererror');
   if (parseError) {
-    const error = new Error(parseError.textContent);
+    const error = new Error();
+    error.isResource = true;
     throw error;
   }
 

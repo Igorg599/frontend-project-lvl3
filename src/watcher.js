@@ -102,7 +102,7 @@ const watch = (elements, initialState, i18nInstance) => {
         button.setAttribute('data-id', post.id);
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#modal');
-        button.textContent = 'Просмотр';
+        button.textContent = i18nInstance.t('preview');
         li.appendChild(button);
         ulPost.appendChild(li);
       });

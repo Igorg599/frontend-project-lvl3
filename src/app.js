@@ -10,6 +10,16 @@ const fetchInterval = 5000;
 
 const proxyLink = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 
+const typeError = (err, i18nInstance) => {
+  if (err.isResource) {
+    return i18nInstance.t('errors.resource');
+  }
+  if (err.isAxiosError) {
+    return i18nInstance.t('errors.network');
+  }
+  return i18nInstance.t('errors.unknown');
+};
+
 const getNewPosts = (state) => {
   const promisesFeeds = state.feeds.map((feed) => axios
     .get(proxyLink + feed.url)
@@ -40,15 +50,7 @@ const getNewPosts = (state) => {
 const processSSr = (url, state, i18nInstance) => {
   axios
     .get(proxyLink + url)
-    .then((response) => {
-      if (response.status === 200) return response.data;
-      state.form = {
-        error: i18nInstance.t('errors.network'),
-        valid: false,
-      };
-      throw new Error('Network response was not ok.');
-    })
-    .then((data) => parser(data.contents))
+    .then((response) => parser(response.data.contents))
     .then((res) => {
       const feed = {
         url,
@@ -64,9 +66,9 @@ const processSSr = (url, state, i18nInstance) => {
       state.feeds.unshift(feed);
       state.posts.unshift(...posts);
     })
-    .catch(() => {
+    .catch((e) => {
       state.form = {
-        error: i18nInstance.t('errors.resource'),
+        error: typeError(e, i18nInstance),
         valid: false,
       };
     });
