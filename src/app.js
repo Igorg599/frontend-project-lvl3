@@ -73,11 +73,11 @@ const processSSr = (url, state, i18nInstance) => {
       };
     })
     .catch((e) => {
-      state.load = 'failure';
       state.form = {
         error: typeError(e, i18nInstance),
         valid: false,
       };
+      state.load = 'failure';
     });
 };
 
