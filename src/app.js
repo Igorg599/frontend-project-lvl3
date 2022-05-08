@@ -48,15 +48,15 @@ const processSSr = (url, state, i18nInstance) => {
   state.load = 'loading';
   axios
     .get(proxyLink + url)
-    .then((response) => parser(response.data.contents))
-    .then((res) => {
+    .then((response) => {
+      const dataParse = parser(response.data.contents);
       const feed = {
         url,
         id: _.uniqueId(),
-        title: res.title,
-        descr: res.descr,
+        title: dataParse.title,
+        descr: dataParse.descr,
       };
-      const posts = res.items.map((item) => ({
+      const posts = dataParse.items.map((item) => ({
         ...item,
         feedId: feed.id,
         id: _.uniqueId(),
@@ -107,7 +107,7 @@ const app = async () => {
     posts: [],
     form: {
       error: null,
-      statusLoad: '',
+      valid: false,
     },
     modalPost: null,
     viewPosts: [],
@@ -141,7 +141,6 @@ const app = async () => {
             valid: false,
           };
         } else {
-          watchState.successLoad = i18nInstance.t('load.success');
           processSSr(url, watchState, i18nInstance);
         }
       })
