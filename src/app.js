@@ -14,10 +14,7 @@ const typeError = (err, i18nInstance) => {
   if (err.isResource) {
     return i18nInstance.t('errors.resource');
   }
-  if (err.isAxiosError) {
-    return i18nInstance.t('errors.network');
-  }
-  return i18nInstance.t('errors.unknown');
+  return i18nInstance.t('errors.network');
 };
 
 const getNewPosts = (state) => {
