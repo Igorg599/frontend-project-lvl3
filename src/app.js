@@ -1,4 +1,4 @@
-import { object, string } from 'yup';
+import * as yup from 'yup';
 import axios from 'axios';
 import i18n from 'i18next';
 import _ from 'lodash';
@@ -16,8 +16,14 @@ const app = async () => {
     resources,
   });
 
-  const userSchema = object({
-    website: string().url().nullable(),
+  yup.setLocale({
+    mixed: {
+      notOneOf: i18nInstance.t('errors.double'),
+    },
+    string: {
+      url: i18nInstance.t('errors.valid'),
+      required: i18nInstance.t('errors.empty'),
+    },
   });
 
   const elements = {
@@ -119,15 +125,11 @@ const app = async () => {
 
   const validateURL = (url, state) => {
     const links = state.feeds.map((feed) => feed.url);
-    if (links.includes(url)) {
-      return Promise.reject(i18nInstance.t('errors.double'));
-    }
-    return userSchema
-      .validate({
-        website: url,
-      })
+    const currentUserSchema = yup.string().url().required().notOneOf(links);
+    return currentUserSchema
+      .validate(url)
       .then(() => null)
-      .catch(() => i18nInstance.t('errors.valid'));
+      .catch((e) => e.message);
   };
 
   const watchState = watch(elements, initialState, i18nInstance);
