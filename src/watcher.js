@@ -16,9 +16,7 @@ const watch = (elements, initialState, i18nInstance) => {
       feedback.classList.remove('text-danger');
       feedback.textContent = i18nInstance.t('load.success');
     } else {
-      if (error !== 'Ошибка сети') {
-        input.classList.add('is-invalid');
-      }
+      input.classList.add('is-invalid');
       feedback.classList.remove('text-success');
       feedback.classList.add('text-danger');
       feedback.textContent = error;

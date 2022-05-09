@@ -11,10 +11,13 @@ const fetchInterval = 5000;
 const proxyLink = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 
 const typeError = (err, i18nInstance) => {
+  if (err.message === 'Network Error') {
+    return i18nInstance.t('errors.network');
+  }
   if (err.isResource) {
     return i18nInstance.t('errors.resource');
   }
-  return i18nInstance.t('errors.network');
+  return i18nInstance.t('errors.unknown');
 };
 
 const getNewPosts = (state) => {
