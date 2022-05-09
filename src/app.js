@@ -138,23 +138,16 @@ const app = async () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const url = formData.get('url');
-    validateURL(url, watchState)
-      .then((err) => {
-        if (err) {
-          watchState.form = {
-            error: err,
-            valid: false,
-          };
-        } else {
-          processSSr(url, watchState);
-        }
-      })
-      .catch((err) => {
+    validateURL(url, watchState).then((err) => {
+      if (err) {
         watchState.form = {
           error: err,
           valid: false,
         };
-      });
+      } else {
+        processSSr(url, watchState);
+      }
+    });
   });
 
   elements.postsWrapper.addEventListener('click', (e) => {
