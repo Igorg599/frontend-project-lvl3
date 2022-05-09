@@ -64,7 +64,7 @@ const app = async () => {
 
   const getNewPosts = (state) => {
     const promisesFeeds = state.feeds.map((feed) => axios
-      .get(proxyLink + feed.url)
+      .get(proxyLink + encodeURIComponent(feed.url))
       .then((response) => {
         const data = parser(response.data.contents);
 
@@ -92,7 +92,7 @@ const app = async () => {
   const processSSr = (url, state) => {
     state.load = 'loading';
     axios
-      .get(proxyLink + url)
+      .get(proxyLink + encodeURIComponent(url))
       .then((response) => {
         const dataParse = parser(response.data.contents);
         const feed = {
@@ -115,6 +115,7 @@ const app = async () => {
         };
       })
       .catch((e) => {
+        console.log(e.message);
         state.form = {
           error: typeError(e),
           valid: false,
