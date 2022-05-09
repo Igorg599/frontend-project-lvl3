@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 import path, { dirname } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
